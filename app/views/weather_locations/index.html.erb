@@ -1,0 +1,78 @@
+<div class="container">
+  <% if notice %>
+    <div class="alert-danger" role="alert">
+      <strong><%= notice %></strong>
+      <button type="button" class="close" id="warning">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% end %>
+
+  <h1>Weather Locations</h1>
+
+  <div class="row">
+    <div class="col-md-4">
+      <%= bootstrap_form_for(@weather_location) do |f| %>
+        <%= f.number_field :zip, hide_label: true, min: 10000, placeholder: 'Enter Zip Code', required: true %>
+        <%= f.submit "Add New Location", class: 'btn btn-primary'%>
+      <% end %>
+    </div>
+
+    <div class="col-md-4">
+      <div class="btn-group" id="temp-conversion">
+        <button type="button" class="btn btn-primary active" id="to-fahrenheit" disabled>Fahrenheit</button>
+        <button type="button" class="btn btn-primary" id="to-celsius">Celsius</button>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <button type="button" class="btn btn-primary" id="refresh-all">Refresh All Locations</button>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <% @weather_locations.each do |weather_location| %>
+      <div class="col-md-6 weather-location" id="<%= "weather-location-#{weather_location.id}" %>">
+        <div class="panel panel-primary copyright-wrap" id="copyright-wrap">
+
+          <div class="panel-heading"><%= weather_location.name %>
+            <button type="button" class="close location-remove" id="<%= weather_location.id %>" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+            </button>
+          </div>
+
+          <div class="panel-body">
+            <h5 class="panel-title"><%= weather_location.kind %></h5>
+            <p class="card-text"><%= weather_location.description %></p>
+
+            <div class="row">
+              <div class="col-md-6">
+                Current: <span class="temperature"><%= weather_location.temp.round(1) %></span>&deg <span class="temp-type">F</span>
+              </div>
+              <div class="col-md-6">
+                High: <span class="temperature"><%= weather_location.temp_min.round(1) %></span>&deg <span class="temp-type">F</span>
+              </div>
+            </div>
+
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                Low: <span class="temperature"><%= weather_location.temp_max.round(1) %></span>&deg <span class="temp-type">F</span>
+              </div>
+              <div class="col-md-6">
+                Average: <span class="temperature"><%= weather_location.calculate_average_temp.round(1) %></span>&deg <span class="temp-type">F</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+
+</div>
+
+<%= javascript_pack_tag 'weather_locations_index' %>

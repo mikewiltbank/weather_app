@@ -1,3 +1,11 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  root 'weather_locations#index'
+
+  resources :weather_locations, only: [:index, :show, :create, :update, :destroy] do
+    collection do
+      put :update_all
+    end
+  end
+
 end
