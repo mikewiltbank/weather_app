@@ -1,0 +1,46 @@
+<div class="container">
+  <p id="notice"><%= notice %></p>
+
+  <% if @weather_location %>
+    <div class="panel panel-primary copyright-wrap" id="copyright-wrap">
+
+      <div class="panel-heading">
+        <%= @weather_location.name %>
+      </div>
+
+      <div class="panel-body">
+        <h5 class="panel-title"><%= @weather_location.kind %></h5>
+        <p class="card-text"><%= @weather_location.description %></p>
+
+        <div class="row">
+          <div class="col-md-6">
+            Current: <span class="temperature"><%= @weather_location.temp.round(1) %></span>&deg
+            <span class="temp-type">F</span>
+          </div>
+          <div class="col-md-6">
+            High: <span class="temperature"><%= @weather_location.temp_min.round(1) %></span>&deg
+            <span class="temp-type">F</span>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            Low: <span class="temperature"><%= @weather_location.temp_max.round(1) %></span>&deg
+            <span class="temp-type">F</span>
+          </div>
+          <div class="col-md-6">
+            Average: <span class="temperature"><%= @weather_location.calculate_average_temp.round(1) %></span>&deg
+            <span class="temp-type">F</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  <% else %>
+    <h1>No Resource Found!</h1>
+  <% end %>
+
+  <%= link_to 'Back', weather_locations_path %>
+</div>
